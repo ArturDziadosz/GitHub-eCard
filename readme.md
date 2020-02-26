@@ -9,7 +9,7 @@ After searching, the following data are displayed:
 * percentage share of used programing languages in the entire user public repositories
 
 ### For client version go to:
-## <a href="https://arturdziadosz.github.io/GitHub-eCard/index.html" target="_blank">GitHub eCard</a>
+## <a href="https://arturdziadosz.github.io/GitHub-eCard/" target="_blank">GitHub eCard</a>
 
 ## Tech stack:
 ### `HTML5` `CSS3` `Vanilla JS` `REST API`

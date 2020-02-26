@@ -12,4 +12,4 @@ After searching, the following data are displayed:
 ## <a href="https://arturdziadosz.github.io/GitHub-eCard/index.html" target="_blank">GitHub eCard</a>
 
 ## Tech stack:
-### `HTML5` `CSS3` `Vanilla JS`
+### `HTML5` `CSS3` `Vanilla JS` `REST API`

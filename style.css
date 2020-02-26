@@ -84,14 +84,19 @@ body {
 }
 
 .result__box:nth-child(2), .result__box:first-child {
-  padding-left: 160px;
+  padding-right: 160px;
 }
 
 .result__box > p {
   font-weight: bold;
 }
 
-.result__box ul {
-  /*position: absolute;*/
-  left: 90px;
+.result__box:first-child ul {
+  position: relative;
+  left: 17px;
+}
+
+.result__box:nth-child(2) ul {
+  position: relative;
+  left: 31px;
 }

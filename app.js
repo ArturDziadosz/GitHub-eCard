@@ -24,13 +24,13 @@ window.addEventListener("DOMContentLoaded", e => {
             // printing data in result box
             result.innerHTML = `<h2 class="box__resume__title">GitHub Résumé</h2><div class="box__resume__avatar"><img src="${data.avatar_url}"></div><div class="box__resume__result"><div class="result__box"><p>Username:</p><ul><li>${data.name}</li></ul></div><div class="result__box"><p>Website:</p><ul><li><a href="${data.html_url}" target="_blank">${data.html_url}</a></li></ul></div><div class="result__box"><p>Repositories:</p><ul id="reposList"></ul></div><div class="result__box"><p>Languages:</p><ul id="languagesList"></ul></div></div>`;
           }
-            // 404 user doesn't exist
-            else if (request.status === 404) {
-              result.innerHTML = `<p class="userError">Such user doesn't exist!</p>`
+          // 404 user doesn't exist
+          else if (request.status === 404) {
+            result.innerHTML = `<p class="userError">Such user doesn't exist!</p>`
           }
-            // all the other responses status
-            else {
-              result.innerHTML = `<p class="userError">Ooops! Something goes wrong! Go to console.</p>`
+          // all the other responses status
+          else {
+            result.innerHTML = `<p class="userError">Ooops! Something goes wrong! Go to console.</p>`
           }
         }
       };
@@ -41,44 +41,70 @@ window.addEventListener("DOMContentLoaded", e => {
 
   // repos AJAX request
   const reposFetchData = (username) => {
-      // initialize a request
-      const request = new XMLHttpRequest();
-      request.open('GET', 'https://api.github.com/users/' + username + `/repos`);
-      // fire a main callback when readyState property of the request changes
-      request.onreadystatechange = () => {
-        // checking if fetch operation is complete
-        if (request.readyState === 4) {
-          // checking the successful response form server
-          if (request.status === 200) {
-            // parsing data from JSON to JS
-            const repos = JSON.parse(request.responseText);
-            // searching for created lists
-            const reposList = document.getElementById("reposList");
-            const languagesList = document.getElementById("languagesList");
-            // iterating whole repos array
-            repos.forEach(repo => {
-              // creating HTML element li
-              let li = document.createElement("li");
+    // initialize a request
+    const request = new XMLHttpRequest();
+    request.open('GET', 'https://api.github.com/users/' + username + `/repos`);
+    // fire a main callback when readyState property of the request changes
+    request.onreadystatechange = () => {
+      // checking if fetch operation is complete
+      if (request.readyState === 4) {
+        // checking the successful response form server
+        if (request.status === 200) {
+          // parsing data from JSON to JS
+          const repos = JSON.parse(request.responseText);
+          // searching for created repo list
+          const reposList = document.getElementById("reposList");
+          // checking if there is at least one public repo
+          if (repos.length === 0) {
+            reposList.innerHTML = `<li>There are no public repositories</li>`;
+          }
+          // variable
+          const languagesArray = [];
+          // iterating whole repos array
+          repos.forEach(repo => {
+            // creating HTML element li
+            let repoLi = document.createElement("li");
+            // checking if there is a description
+            if (repo.description === null) {
+              repoLi.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a><p>No description.</p>`;
+            } else {
               // adding content to the element li
-              li.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a><p>${repo.description}</p>`;
-              // appending each li element to repos ul
-              reposList.append(li);
-
-              //
-              li.innerHTML = `<p>${repo.language}</p>`;
-              //
-              languagesList.append(li);
-
-            });
-          }
-          else {
-            result.innerHTML = `<p class="userError">Ooops! Something goes wrong! Go to console.</p>`
-          }
+              repoLi.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a><p>${repo.description}</p>`;
+            }
+            // appending each li element to repos ul
+            reposList.append(repoLi);
+            // adding main language repo to array
+            languagesArray.push(repo.language);
+          });
+          // calling function which calculate percentage usage of languages
+          calculatingUsedLanguages(languagesArray);
+        } else {
+          result.innerHTML = `<p class="userError">Ooops! Something goes wrong! Go to console.</p>`
         }
-      };
-      // sending the request to the server
-      request.send();
+      }
     };
+    // sending the request to the server
+    request.send();
+  };
+
+  // calculate percentage usage of languages
+  const calculatingUsedLanguages = languagesArray => {
+    // searching for languages list
+    const languagesList = document.getElementById("languagesList");
+    // filtering Array from nulls
+    const filteredLanguagesArray = languagesArray.filter(value => value !== null);
+    // counting the same elements
+    const counts = {};
+    filteredLanguagesArray.forEach(x => {
+      counts[x] = (counts[x] || 0) + 1;
+    });
+
+    // Object.keys(counts).forEach((count, i) => {
+    //   console.log(counts[i].count);
+    // });
+
+    console.log(counts, Object.values((counts)));
+  };
 
   // variables
   const result = document.getElementById("result");

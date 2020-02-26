@@ -79,6 +79,7 @@ window.addEventListener("DOMContentLoaded", e => {
           // calling function which calculate percentage usage of languages
           calculatingUsedLanguages(languagesArray);
         } else {
+          // all the other responses status
           result.innerHTML = `<p class="userError">Ooops! Something goes wrong! Go to console.</p>`
         }
       }
@@ -91,6 +92,15 @@ window.addEventListener("DOMContentLoaded", e => {
   const calculatingUsedLanguages = languagesArray => {
     // searching for languages list
     const languagesList = document.getElementById("languagesList");
+    // checking if there is a any language used
+    if (languagesArray.length === 0) {
+      // creating HTML element li
+      let languageLi = document.createElement("li");
+      // adding content to the element li
+      languageLi.innerHTML = `No languages.`;
+      // appending each li element to repos ul
+      languagesList.append(languageLi);
+    }
     // filtering Array from nulls
     const filteredLanguagesArray = languagesArray.filter(value => value !== null);
     // counting the same elements
@@ -99,11 +109,14 @@ window.addEventListener("DOMContentLoaded", e => {
       counts[x] = (counts[x] || 0) + 1;
     });
 
-    // Object.keys(counts).forEach((count, i) => {
-    //   console.log(counts[i].count);
-    // });
-
-    console.log(counts, Object.values((counts)));
+    Object.keys(counts).forEach(count => {
+      // creating HTML element li
+      let languageLi = document.createElement("li");
+      // adding content to the element li
+      languageLi.innerHTML = `${count} - ${counts[count]/filteredLanguagesArray.length}%`;
+      // appending each li element to languages ul
+      languagesList.append(languageLi);
+    });
   };
 
   // variables

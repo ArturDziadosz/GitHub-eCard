@@ -16,7 +16,7 @@ body {
 }
 
 .box {
-  width: 500px;
+  width: 550px;
   padding: 20px;
   margin: 50px auto;
   border-radius: 10px;
@@ -76,7 +76,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  padding-right: 150px;
 }
 
 .result__box {
@@ -84,11 +83,15 @@ body {
   position: relative;
 }
 
-.result__box p {
+.result__box:nth-child(2), .result__box:first-child {
+  padding-left: 160px;
+}
+
+.result__box > p {
   font-weight: bold;
 }
 
 .result__box ul {
-  position: absolute;
+  /*position: absolute;*/
   left: 90px;
 }

@@ -108,12 +108,12 @@ window.addEventListener("DOMContentLoaded", e => {
     filteredLanguagesArray.forEach(x => {
       counts[x] = (counts[x] || 0) + 1;
     });
-
+    // iterating through object with languages names keys and quantity values
     Object.keys(counts).forEach(count => {
       // creating HTML element li
       let languageLi = document.createElement("li");
       // adding content to the element li
-      languageLi.innerHTML = `${count} - ${counts[count]/filteredLanguagesArray.length}%`;
+      languageLi.innerHTML = `${count} - ${(counts[count]/filteredLanguagesArray.length).toFixed(2)}%`;
       // appending each li element to languages ul
       languagesList.append(languageLi);
     });

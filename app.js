@@ -1,5 +1,5 @@
 // waiting for the DOM to be loaded
-window.addEventListener("DOMContentLoaded", e => {
+window.addEventListener("DOMContentLoaded", () => {
   // main AJAX request
   const fetchData = () => {
     // reading the input value
@@ -19,10 +19,10 @@ window.addEventListener("DOMContentLoaded", e => {
           if (request.status === 200) {
             // parsing data from JSON to JS
             const data = JSON.parse(request.responseText);
-            // calling repos AJAX request
+            // calling repos AJAX request, user login as a parameter to make precise AJAX request
             reposFetchData(data.login);
             // printing data in result box
-            result.innerHTML = `<h2 class="box__resume__title">GitHub Résumé</h2><div class="box__resume__avatar"><img src="${data.avatar_url}"></div><div class="box__resume__result"><div class="result__box"><p>Username:</p><ul><li>${data.name}</li></ul></div><div class="result__box"><p>Website:</p><ul><li><a href="${data.html_url}" target="_blank">${data.html_url}</a></li></ul></div><div class="result__box"><p>Repositories:</p><ul id="reposList"></ul></div><div class="result__box"><p>Languages:</p><ul id="languagesList"></ul></div></div>`;
+            result.innerHTML = `<h2 class="box__resume__title">GitHub Résumé</h2><div class="box__resume__avatar"><img src="${data.avatar_url}" alt="user avatar"></div><div class="box__resume__result"><div class="result__box"><p>Username:</p><ul><li>${data.name}</li></ul></div><div class="result__box"><p>Website:</p><ul><li><a href="${data.html_url}" target="_blank">${data.html_url}</a></li></ul></div><div class="result__box"><p>Repositories:</p><ul id="reposList"></ul></div><div class="result__box"><p>Languages:</p><ul id="languagesList"></ul></div></div>`;
           }
           // 404 user doesn't exist
           else if (request.status === 404) {
@@ -104,19 +104,29 @@ window.addEventListener("DOMContentLoaded", e => {
     // filtering Array from nulls
     const filteredLanguagesArray = languagesArray.filter(value => value !== null);
     // counting the same elements
-    const counts = {};
-    filteredLanguagesArray.forEach(x => {
-      counts[x] = (counts[x] || 0) + 1;
+    const countedLanguagesObject = {};
+    filteredLanguagesArray.forEach(language => {
+      countedLanguagesObject[language] = (countedLanguagesObject[language] || 0) + 1;
     });
-    // iterating through object with languages names keys and quantity values
-    Object.keys(counts).forEach(count => {
+    // variable
+    const sortableCountedLanguagesArray = [];
+    // iterating through object to get sortable array
+    for (const language in countedLanguagesObject) {
+      sortableCountedLanguagesArray.push([language, countedLanguagesObject[language]]);
+    }
+    // sorting array from most to least used language
+    const sortedCountedLanguagesArray = sortableCountedLanguagesArray.sort((a,b) => {
+      return b[1] - a[1];
+    });
+    // iterating sorted and counted languages array
+    sortedCountedLanguagesArray.forEach(count => {
       // creating HTML element li
       let languageLi = document.createElement("li");
       // adding content to the element li
-      languageLi.innerHTML = `${count} - ${(counts[count]/filteredLanguagesArray.length).toFixed(2)}%`;
+      languageLi.innerHTML = `${count[0]} - ${((count[1]/filteredLanguagesArray.length)*100).toFixed(2)}%`;
       // appending each li element to languages ul
       languagesList.append(languageLi);
-    });
+    })
   };
 
   // variables
@@ -130,5 +140,4 @@ window.addEventListener("DOMContentLoaded", e => {
     // calling AJAX request
     fetchData();
   });
-})
-;
+});

@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  background-color: lightgrey;
+}
+
+.emptyInput {
+  text-align: center;
+}
+
+.userError {
+  text-align: center;
+  color: red;
+}
+
+.box {
+  width: 500px;
+  padding: 20px;
+  margin: 50px auto;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px white;
+  background-color: white;
+
+}
+
+.box__title {
+  text-align: center;
+  text-decoration: underline;
+  color: grey;
+}
+
+.box__input {
+  margin: 0 auto;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  color: gray;
+}
+
+.box__btn {
+  margin: 20px auto;
+  display: block;
+  color: white;
+  background-color: gray;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+.box__resume {
+  color: grey;
+  position: relative;
+}
+
+.box__resume__title {
+  text-decoration: underline;
+}
+
+.box__resume__avatar {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.box__resume__avatar img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px gray;
+}
+
+.box__resume__result {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding-right: 150px;
+}
+
+.result__box {
+  display: flex;
+  position: relative;
+}
+
+.result__box p {
+  font-weight: bold;
+}
+
+.result__box ul {
+  position: absolute;
+  left: 90px;
+}
